@@ -1,7 +1,6 @@
 ---
 icon: pen-to-square
 date: 2022-01-01
-article : false
 category:
   - 苹果
 tag:
@@ -10,12 +9,4 @@ tag:
   - 圆
 ---
 
-# 苹果 1
-
-## 标题 2
-
-这里是内容。
-
-### 标题 3
-
-这里是内容。
+# javaScript

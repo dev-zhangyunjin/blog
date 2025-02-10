@@ -4,16 +4,24 @@ export default navbar([
   "/",
   // "/demo/",
   {
-    text: "代码笔记",
+    text: "学习笔记",
     icon: "pen-to-square",
     prefix: "/posts/",
     children: [
       {
         text: "前端",
         icon: "pen-to-square",
-        prefix: "apple/",
+        prefix: "UI/",
         children: [
-          { text: "Javascript", icon: "pen-to-square", link: "1" },
+          { text: "Javascript", icon: "pen-to-square", link: "javascript" },
+        ],
+      },
+      {
+        text: "网络技术",
+        icon: "pen-to-square",
+        prefix: "NET/",
+        children: [
+          { text: "Javascript", icon: "pen-to-square", link: "network" },
         ],
       },
       // {

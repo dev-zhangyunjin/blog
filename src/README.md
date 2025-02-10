@@ -3,9 +3,10 @@ home: true
 layout: BlogHome
 icon: house
 title: 首页
-heroImage: 
-heroText: Alex
+heroImage: /assets/images/dog.png
+heroText: alex
 heroFullScreen: true
+bgImage: /assets/images/home.jpg
 tagline: 厚积薄发，滴水穿石
 # projects:
 #   - icon: folder-open

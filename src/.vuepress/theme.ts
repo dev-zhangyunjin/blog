@@ -10,9 +10,11 @@ export default hopeTheme({
     url: "https://mister-hope.com",
   },
 
-  logo: "https://theme-hope-assets.vuejs.press/logo.svg",
+  logo: "/assets/images/dog.png",
 
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  // 主体切换
+  darkmode: "toggle",
+  repo: "",
 
   docsDir: "src",
 
@@ -24,7 +26,7 @@ export default hopeTheme({
 
   // 页脚
   footer: "默认页脚",
-  displayFooter: true,
+  displayFooter: false,
 
   // 博客相关
   blog: {
@@ -93,7 +95,7 @@ export default hopeTheme({
     attrs: true,
     codeTabs: true,
     component: true,
-    demo: true,
+    demo: false,
     figure: true,
     gfm: true,
     imgLazyload: true,

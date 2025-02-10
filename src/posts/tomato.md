@@ -1,6 +1,7 @@
 ---
 cover: /assets/images/cover2.jpg
 icon: pen-to-square
+article: false
 date: 2022-01-12
 category:
   - 蔬菜
