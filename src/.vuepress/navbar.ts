@@ -13,7 +13,9 @@ export default navbar([
         icon: "pen-to-square",
         prefix: "UI/",
         children: [
-          { text: "Javascript", icon: "pen-to-square", link: "javascript" },
+          { text: "JavaScript", icon: "pen-to-square", link: "JavaScript" },
+          { text: "vue3", icon: "pen-to-square", link: "vue3" },
+          { text: "前端面试题", icon: "pen-to-square", link: "interview" },
         ],
       },
       {
@@ -21,7 +23,7 @@ export default navbar([
         icon: "pen-to-square",
         prefix: "NET/",
         children: [
-          { text: "Javascript", icon: "pen-to-square", link: "network" },
+          { text: "ip 地址", icon: "pen-to-square", link: "network" },
         ],
       },
       // {
@@ -52,4 +54,20 @@ export default navbar([
   //   icon: "book",
   //   link: "https://theme-hope.vuejs.press/zh/",
   // },
+  {
+    text: "项目仓库",
+    icon: "git",
+    children: [
+      {
+        text: "GitHub",
+        icon: "github",
+        link: "https://github.com/mister-hope",
+      },
+      {
+        text: "VuePress",
+        icon: "vuejs",
+        link: "https://vuepress.vuejs.press/zh/",
+      },
+    ],
+  }
 ]);
