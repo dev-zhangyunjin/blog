@@ -13,8 +13,11 @@ export default navbar([
         icon: "pen-to-square",
         prefix: "UI/",
         children: [
+          { text: "CSS", icon: "pen-to-square", link: "css" },
           { text: "JavaScript", icon: "pen-to-square", link: "JavaScript" },
-          { text: "vue3", icon: "pen-to-square", link: "vue3" },
+          { text: "webpack", icon: "pen-to-square", link: "webpack" },
+          { text: "Vue", icon: "pen-to-square", link: "vue3" },
+          { text: "React", icon: "pen-to-square", link: "vue3" },
           { text: "前端面试题", icon: "pen-to-square", link: "interview" },
         ],
       },

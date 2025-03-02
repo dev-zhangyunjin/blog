@@ -10,6 +10,213 @@ tag:
 ---
 
 # 前端面试题库
+## Vue2篇
+### 生命周期有哪些？发送请求在created还是mounted中？
+- beforeCreate
+- created
+- beforeMounted
+- mounted
+- beforeUpdate
+- updated
+- beforeDestroy
+- destroyed
+> 这个问题得看项目和业务情况，因为父组件中引入子组件的加载顺序是：beforeCreate -> created -> beforeMounted -> 子组件 (beforeCreate -> created -> beforeMounted ->mounted) -> mounted，如果我们的业务是父组件引入子组件的时候，并且优先加载子组件的数据，那么父组件中当前的请求要放在mounted中，如果组件中没有依赖关系，无所谓放哪
+### 为什么发送请求不在beforeCreate中，breforeCreate和created有什么区别？
+1. 因为如果这个请求是在method中封装好的，在beforeCreate调用的时候，beforeCreate是拿不到method中的数据
+2. 区别：beforeCreate中没有$el和$data,create中能获取到$data,不能获取到$el
+### 在created中如何获取dom？
+1. 只要异步函数中去获取dom
+2. this.$nextTick(() =>{})
+### 进入组件会执行哪些生命周期
+- beforeCreate
+- created
+- beforeMounted
+- mounted
+> beforeCreate执行时，this.$el为undefined，this.$date 为undefined;
+> created执行时，this.$el为undefined，this.$date 能读到数据;
+> beforeMounted执行时，this.$el为undefined，this.$date 能读到数据;
+> mounted执行时，this.$el能读到dom，this.$date 能读到数据;
+
+### 如果父组件引入子组件，生命周期执行顺序？
+- beforeCreate
+- created
+- beforeMounted
+    - 子：beforeCreate
+    - 子：created
+    - 子：beforeMounted
+    - 子：mounted
+- mounted
+### 第二次或者第n次进去组件会执行哪些生命周期？
+如果当前组件加入keep-alive，只会执行一个生命周期，activated
+## Vue3篇
+### 加入keep-alive会执行哪些生命周期？
+会额外增加两个生命周期：
+- activated：
+- deactivated：
+如果当前组件加入了keep-alive，那么第一次进入会执行
+- beforeCreate
+- created
+- beforeMounted
+- mounted
+- activated
+## 关于组件
+### 组件传值（通信）方式
+- 父传后代
+**父传子**
+```vue
+<template>
+    <h1>父组件</h1>
+    <div>
+        <News :user="user"></News>
+    </div>
+</template>
+<script>
+   import News from './News.vue' 
+   export default{
+    name:"homeView"
+    components:{
+        News
+    },
+    props:{
+        user:{
+            type:Object,
+            default:{}
+        }
+    }
+    data(){
+        return{
+            user:{
+                name:"alex",
+                age:18
+            }
+        }
+    }
+   }
+</script>
+
+```
+```vue
+<template>
+    <div>
+        <h1>子组件</h1>
+        <div>{{user}}</div>
+    </div>
+</template>
+<script>
+    export default{
+        name:"NewsViews",
+        data(){},
+        created(){
+            console.log(this.$parent.user);
+        }
+    }
+</script>
+```
+这种方式不能跨组件传值
+子组件能够直接使用父组件的数据
+子组件可以使用**this.$parent.user.name = "xxxx"修改父组件的数据**
+**provide 和 inject**
+```vue
+<template>
+    <div>
+        <List></List>
+    </div>
+</template>
+<script>
+import List from './List.vue'
+   export default{
+        name:"homeView",
+        components:{
+            List
+        }
+        data(){
+            return{
+                user:{
+                    name:"alex"
+                }
+            }
+        },
+        provide(){
+            return{
+                user:this.user
+            }
+        }
+   } 
+</script>
+```
+```vue
+<template>
+    <div>
+        <News></News>
+    </div>
+</template>
+
+<script>
+import News from './News.vue'
+export default{
+    name:"NewsView",
+    components:{
+        News
+    },
+    data(){
+        return{
+
+        }
+    }    
+}
+
+</script>
+```
+```vue
+<template>
+    <div>
+        {{user}}
+    </div>
+</template>
+<script>
+export default{
+    inject:["user"]
+}
+</script>
+```
+- 后代传父
+**子组件传父组件**
+
+- 平辈传值
+
+
+### keep-alive
+> keep-alive 是一个内置组件，它允许我们缓存和保留组件状态，并在需要时重新渲染它们。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 同一个页面三个组件请求同一个API，怎么解决？
 ``` javascript
 
@@ -97,6 +304,6 @@ import { add } from './add'
 ```javascript
 import { getCurrentInstance } from "vue";
 const { proxy } = getCurrentInstance();
-```
+``` 
 ## Vue3 中常用的数据类型
 
