@@ -881,7 +881,231 @@ class Person implements PersonInterface{
     ){}
     // 实现接口中的 speak 方法，注意：实现speak时参数个数可以少于接口中的规定，但是不能多。
     speak(n:number):void{
-        
+
     }
 }
+// 创建 Person 类的实例 p1
+const p1 = new Person("tom",19)
+p1.speak(3)
+```
+- 定义对象结构
+```ts
+interface UserInterface{
+    name:string
+    readonly gender: string
+    age?:number
+    run:(n:number) => void
+}
+const user:UserInterface = {
+    name:"alex",
+    gender:"男",
+    age:18,
+    run(n){
+        console.log(`奔跑了${n}米`)
+    }
+}
+```
+- 定义函数结构
+```ts
+interface CountInterface {
+    (a:number,b:number):number
+}
+
+const count:CountInterface = (x,y) => x + y
+```
+- 接口之间的继承
+```ts
+interface PersonInterface {
+    name:string
+    age:number
+}
+interface StudentInterface extends PersonInterface{
+    grade:string
+}
+
+const stu: StudentInterface = {
+    name:"alex",
+    age:23,
+    grade:"初一"
+}
+``` 
+- 接口自动合并（可重复性）
+```ts
+interface PersonInterface{
+    name:string,
+    age:number
+}
+interface PersonInterface{
+    gender:string
+}
+const p:PersonInterface = {
+    name:"tom",
+    age:12,
+    gender:"男"
+}
+```
+- 总结
+> - **定义对象的格式**：描述数据模型，API响应格式、配置对象....等等，是开发中用得最多的场景。
+> - **类的契约**：规定一个类需要实现哪些属性和方法。
+> - **自动合并**：一般用于扩展第三方库的类型，这种特性在大型项目中可能用到。
+
+### 一些相似的概念
+
+#### interface 与 type 的区别
+> - 相同点：``interface``和``type``都可以用于定义``对象结构``，两者在许多场景中是可以互换的。
+> - 不同点：
+>   - ``interface``：更专注于定义``对象``和``类``的结构，支持``继承``、``合并``。
+>   - ``type``：可以定义``类型别名``、``联合类型``、``交叉类型``，但不支持继承和自动合并。
+
+```ts
+interface PersonInterface {
+    name:string
+    age:number
+}
+interface PersonInterface {
+    speak:() => void
+}
+interface StudentInterface extends PersonInterface {
+    grade:string
+}
+const student:StudentInterface = {
+    name:"Alex",
+    age:12,
+    grade:"高二",
+    speak(){
+        console.log(this.name,this.age,this.grade)
+    }
+}
+
+type PersonType = {
+    name:string;
+    age:number;
+} & {
+    speak:() => void;
+}
+
+type StudentType = PersonType & {
+    grade:string
+}
+```
+
+#### interface 和 抽象类 的区别
+> - ``相同点``：都用于定义一个``类的格式``
+> - ``不同点``:
+>   - 接口：只能描述结构，不能有任何实现代码，一个类可以实现多个接口。
+>   - 抽象类：即可以包含抽象方法，也可以包含具体方法，一个类只能继承一个抽象类。
+
+```ts
+interface FlyInterface{
+
+}
+interface SwimInterface{}
+
+class Animal implements FlyInterface,SwimInterface{}
+
+```
+
+## 泛型
+> 泛型允许我们在定义函数、类或接口时，使用类型参数来表示``未指定的类型``，这些参数在具体使用时，才被指定具体的类型，泛型能让同一段代码适用于多种类型，同时仍然保持类型的安全性。
+
+举例：如下代码``<T>``就是泛型，（不一定非叫T），设置泛型后即可在函数中使用``T``来表示该类型。
+
+- 泛型函数
+```ts
+function fn1<T>(data: T) {
+  console.log(data)
+}
+fn1<number>(100)
+
+fn1<string>("100")
+
+fn1<boolean>(false)
+```
+- 泛型可以有多个
+```ts
+function fn2<T, U>(a: T, b: U): U | T {
+
+  return b || a
+}
+const res = fn2<string, number>("11", 2)
+```
+ - 泛型接口
+ ```ts
+interface PersonInterface<T> {
+  name: string
+  age: number,
+  action: T
+}
+let p1: PersonInterface<string> = {
+  name: "alex",
+  age: 12,
+  action: "行为-----"
+}
+let p2: PersonInterface<number> = {
+  name: "alex",
+  age: 11,
+  action: 1
+}
+console.log(p1.action)
+console.log(p2.action)
+
+
+type Ext = {
+  id: number,
+  des: string
+}
+let p3: PersonInterface<Ext> = {
+  name: "Tom",
+  age: 12,
+  action: {
+    id: 1,
+    des: "desc"
+  }
+}
+console.log(p3.action)
+ ```
+ - 泛型约束
+ ```ts
+interface RunInterface {
+  action: {
+    a: number
+    b: string
+  }
+}
+function logRun<T extends RunInterface>(R: T) {
+  console.log("run---")
+}
+logRun({ action: { a: 1, b: "srt" } })
+ ```
+ - 泛型类
+ ```ts
+class Person<T> {
+  constructor(
+    public name: string,
+    public age: number,
+    public ext: T
+  ) { }
+  speak() {
+    console.log(`我叫${this.name}，今年${this.age}岁了`)
+    console.log(this.ext)
+  }
+}
+const p = new Person<string>("alex", 12, "run")
+p.speak()
+ ```
+
+ ## 类型声明文件
+ > 类型声明文件是TypeScript 中的一种特殊文件，通常以``.d.ts``作为扩展名。它的主要作用是为现有的JavaScript代码提供类型信息，使得TypeScript能够在使用这些JavaScript库或者模块时进行类型检查和提示。
+
+```js
+export function add(a,b){
+    return a + b;
+}
+export function mul(a,b){
+    return a * b;
+}
+```
+```ts
+declare function add(a:number,b:number):number;
+declare function mul(a:number,b:number):number;
 ```
